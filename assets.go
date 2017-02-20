@@ -17,7 +17,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"bytes"
+	//"bytes"
 	"strings"
 	"github.com/hyperledger/fabric/core/chaincode/shim"	
 )
@@ -128,7 +128,7 @@ func (t *AssetManagementChaincode) Invoke(stub shim.ChaincodeStubInterface, func
 func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	//myLogger.Debugf("Query [%s]", function)
 	var jsonAsBytes []byte
-	var buffer bytes.Buffer	
+	//var buffer bytes.Buffer	
 	
 	if function != "query" {
 		return nil, errors.New("Invalid query function name. Expecting 'query' but found '" + function + "'")
