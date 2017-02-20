@@ -157,12 +157,13 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	}
 
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
-	buffer.WriteString(row.Columns[0].GetString_())
-	buffer.WriteString(row.Columns[1].GetString_())
-	buffer.WriteString(row.Columns[2].GetString_())
+	//buffer.WriteString(row.Columns[0].GetString_())
+	//buffer.WriteString(row.Columns[1].GetString_())
+	//buffer.WriteString(row.Columns[2].GetString_())
 	
 	//row.Columns[0]
-	jsonAsBytes, _ = json.Marshal(buffer.String())
+	//jsonAsBytes, _ = json.Marshal(buffer.String())
+	jsonAsBytes, _ = json.Marshal(row)
 	return jsonAsBytes, nil
 }
 
