@@ -57,7 +57,8 @@ func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface, functi
 }
 
 func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	
+	var err error
+
 	myLogger.Debug("Assign...")
 
 	if len(args) != 2 {
@@ -71,14 +72,14 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 	// Register assignment
 	myLogger.Debugf("New owner of [%s] is [%s]", asset, owner)
 
-	err := stub.InsertRow("AssetsOwnership", shim.Row{
+	ok, err := stub.InsertRow("AssetsOwnership", shim.Row{
 		Columns: []*shim.Column{
 			&shim.Column{Value: &shim.Column_String_{String_: asset}},
 			&shim.Column{Value: &shim.Column_String_{String_: owner}},
 		},
 	})
 
-	if err == nil {
+	if !ok && err == nil {
 		return nil, errors.New("Asset was already assigned.")
 	}
 
