@@ -14,7 +14,7 @@ limitations under the License.
 package main
 
 import (
-	
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -112,7 +112,7 @@ func (t *AssetManagementChaincode) Invoke(stub shim.ChaincodeStubInterface, func
 // Anyone can invoke this function.
 func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	//myLogger.Debugf("Query [%s]", function)
-
+	var jsonAsBytes []byte
 	if function != "query" {
 		return nil, errors.New("Invalid query function name. Expecting 'query' but found '" + function + "'")
 	}
@@ -140,8 +140,8 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	}
 
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
-
-	return json.Marshal(row), nil
+	jsonAsBytes, _ = json.Marshal(row.Columns[1])
+	return jsonAsBytes, nil
 }
 
 func main() {
