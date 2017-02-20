@@ -75,7 +75,7 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 		Columns: []*shim.Column{
 			&shim.Column{Value: &shim.Column_String_{String_: asset}},
 			&shim.Column{Value: &shim.Column_String_{String_: owner}}},
-	}
+	})
 
 	if err == nil {
 		return nil, errors.New("Asset was already assigned.")
