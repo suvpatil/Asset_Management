@@ -18,9 +18,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/hyperledger/fabric/core/chaincode/shim"
-	"github.com/hyperledger/fabric/core/crypto/primitives"
-	"github.com/op/go-logging"
+	"github.com/hyperledger/fabric/core/chaincode/shim"	
 )
 
 var myLogger = logging.MustGetLogger("asset_mgm")
