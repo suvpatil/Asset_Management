@@ -74,10 +74,10 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 		results = append(results, valSplit[1])
 	}
 
-	asset := results[0]
-	traderLoginUserName = asset[0]
-	isBuyer = asset[1]
-	selectedBuyerName = asset[2]
+	//asset := results[0]
+	traderLoginUserName = results[0]
+	isBuyer = results[1]
+	selectedBuyerName = results[2]
 	//owner := args[1]
 	
 	// Register assignment
