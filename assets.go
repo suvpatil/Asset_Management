@@ -17,7 +17,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-
+	"bytes"
 	"github.com/hyperledger/fabric/core/chaincode/shim"	
 )
 
