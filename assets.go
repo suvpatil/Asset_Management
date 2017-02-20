@@ -140,7 +140,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	}
 
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
-	jsonAsBytes, _ = json.Marshal(row.columns[1])
+	jsonAsBytes, _ = json.Marshal(row..Columns[1])
 	return jsonAsBytes, nil
 }
 
