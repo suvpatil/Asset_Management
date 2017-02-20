@@ -63,7 +63,7 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 	var results []string
 	//myLogger.Debug("Assign...")
 
-	if len(args) != 2 {
+	if len(args) != 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 2")
 	}
 	
