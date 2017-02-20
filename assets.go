@@ -18,6 +18,7 @@ import (
 	"errors"
 	"fmt"
 	"bytes"
+	"strings"
 	"github.com/hyperledger/fabric/core/chaincode/shim"	
 )
 
@@ -57,7 +58,7 @@ func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface, functi
 
 func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
-	var contarctString []string
+	var contractSlice []string
 	var valSplit []string
 	var results []string
 	//myLogger.Debug("Assign...")
@@ -75,9 +76,9 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 	}
 
 	//asset := results[0]
-	traderLoginUserName = results[0]
-	isBuyer = results[1]
-	selectedBuyerName = results[2]
+	traderLoginUserName := results[0]
+	isBuyer := results[1]
+	selectedBuyerName := results[2]
 	//owner := args[1]
 	
 	// Register assignment
