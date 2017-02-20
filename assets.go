@@ -21,7 +21,7 @@ import (
 	"github.com/hyperledger/fabric/core/chaincode/shim"	
 )
 
-var myLogger = logging.MustGetLogger("asset_mgm")
+//var myLogger = logging.MustGetLogger("asset_mgm")
 
 // AssetManagementChaincode is simple chaincode implementing a basic Asset Management system
 // with access control enforcement at chaincode level.
@@ -34,7 +34,7 @@ type AssetManagementChaincode struct {
 // Init method will be called during deployment.
 // The deploy transaction metadata is supposed to contain the administrator cert
 func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-	myLogger.Debug("Init Chaincode...")
+	//myLogger.Debug("Init Chaincode...")
 	if len(args) != 0 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 0")
 	}
@@ -49,7 +49,7 @@ func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface, functi
 	}
 
 	
-	myLogger.Debug("Init Chaincode...done")
+	//myLogger.Debug("Init Chaincode...done")
 
 	return nil, nil
 }
@@ -57,7 +57,7 @@ func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface, functi
 func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 
-	myLogger.Debug("Assign...")
+	//myLogger.Debug("Assign...")
 
 	if len(args) != 2 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 2")
@@ -68,7 +68,7 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 	
 
 	// Register assignment
-	myLogger.Debugf("New owner of [%s] is [%s]", asset, owner)
+	//myLogger.Debugf("New owner of [%s] is [%s]", asset, owner)
 
 	ok, err := stub.InsertRow("AssetsOwnership", shim.Row{
 		Columns: []*shim.Column{
@@ -81,7 +81,7 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 		return nil, errors.New("Asset was already assigned.")
 	}
 
-	myLogger.Debug("Assign...done!")
+	//myLogger.Debug("Assign...done!")
 
 	return nil, err
 }
@@ -111,7 +111,7 @@ func (t *AssetManagementChaincode) Invoke(stub shim.ChaincodeStubInterface, func
 // "query(asset)": returns the owner of the asset.
 // Anyone can invoke this function.
 func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
-	myLogger.Debugf("Query [%s]", function)
+	//myLogger.Debugf("Query [%s]", function)
 
 	if function != "query" {
 		return nil, errors.New("Invalid query function name. Expecting 'query' but found '" + function + "'")
@@ -127,7 +127,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	// Who is the owner of the asset?
 	asset := args[0]
 
-	myLogger.Debugf("Arg [%s]", string(asset))
+	///myLogger.Debugf("Arg [%s]", string(asset))
 
 	var columns []shim.Column
 	col1 := shim.Column{Value: &shim.Column_String_{String_: asset}}
@@ -139,7 +139,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 		return nil, fmt.Errorf("Failed retriving asset [%s]: [%s]", string(asset), err)
 	}
 
-	myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
+	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
 
 	return row.Columns[1].GetBytes(), nil
 }
