@@ -41,8 +41,9 @@ func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface, functi
 
 	// Create ownership table
 	err := stub.CreateTable("AssetsOwnership", []*shim.ColumnDefinition{
-		&shim.ColumnDefinition{Name: "Asset", Type: shim.ColumnDefinition_STRING, Key: true},
-		&shim.ColumnDefinition{Name: "Owner", Type: shim.ColumnDefinition_STRING, Key: false},
+		&shim.ColumnDefinition{Name: "traderLoginUserName", Type: shim.ColumnDefinition_STRING, Key: true},
+		&shim.ColumnDefinition{Name: "isBuyer", Type: shim.ColumnDefinition_STRING, Key: false},
+		&shim.ColumnDefinition{Name: "selectedBuyerName", Type: shim.ColumnDefinition_STRING, Key: false},
 	})
 	if err != nil {
 		return nil, errors.New("Failed creating AssetsOnwership table.")
@@ -56,24 +57,37 @@ func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface, functi
 
 func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
-
+	var contarctString []string
+	var valSplit []string
+	var results []string
 	//myLogger.Debug("Assign...")
 
 	if len(args) != 2 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 2")
 	}
-
-	asset := args[0]
-	owner := args[1]
 	
 
+	contarctString = args[0]
+	contractSlice = strings.Split(contarctString, ",")
+	for i := range contractSlice{
+		valSplit = strings.Split(contractSlice[i], ":")
+		results = append(results, valSplit[1])
+	}
+
+	asset := results[0]
+	traderLoginUserName = asset[0]
+	isBuyer = asset[1]
+	selectedBuyerName = asset[2]
+	//owner := args[1]
+	
 	// Register assignment
 	//myLogger.Debugf("New owner of [%s] is [%s]", asset, owner)
 
 	ok, err := stub.InsertRow("AssetsOwnership", shim.Row{
 		Columns: []*shim.Column{
-			&shim.Column{Value: &shim.Column_String_{String_: asset}},
-			&shim.Column{Value: &shim.Column_String_{String_: owner}},
+			&shim.Column{Value: &shim.Column_String_{String_: traderLoginUserName}},
+			&shim.Column{Value: &shim.Column_String_{String_: isBuyer}},
+			&shim.Column{Value: &shim.Column_String_{String_: selectedBuyerName}},
 		},
 	})
 
@@ -132,7 +146,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	///myLogger.Debugf("Arg [%s]", string(asset))
 
 	var columns []shim.Column
-	col1 := shim.Column{Value: &shim.Column_String_{String_: asset}}
+	col1 := shim.Column{Value: &shim.Column_String_{String_: traderLoginUserName}}
 	columns = append(columns, col1)
 
 	row, err := stub.GetRow("AssetsOwnership", columns)
@@ -144,6 +158,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
 	buffer.WriteString(row.Columns[0].GetString_())
 	buffer.WriteString(row.Columns[1].GetString_())
+	buffer.WriteString(row.Columns[2].GetString_())
 	
 	//row.Columns[0]
 	jsonAsBytes, _ = json.Marshal(buffer.String())
