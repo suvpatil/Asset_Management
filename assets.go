@@ -14,7 +14,7 @@ limitations under the License.
 package main
 
 import (
-	"encoding/base64"
+	
 	"errors"
 	"fmt"
 
@@ -57,6 +57,7 @@ func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface, functi
 }
 
 func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	
 	myLogger.Debug("Assign...")
 
 	if len(args) != 2 {
@@ -70,13 +71,13 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 	// Register assignment
 	myLogger.Debugf("New owner of [%s] is [%s]", asset, owner)
 
-	ok, err = stub.InsertRow("AssetsOwnership", shim.Row{
+	err = stub.InsertRow("AssetsOwnership", shim.Row{
 		Columns: []*shim.Column{
 			&shim.Column{Value: &shim.Column_String_{String_: asset}},
-			&shim.Column{Value: &shim.Column_Bytes{Bytes: owner}}},
+			&shim.Column{Value: &shim.Column_String_{String_: owner}}},
 	})
 
-	if !ok && err == nil {
+	if err == nil {
 		return nil, errors.New("Asset was already assigned.")
 	}
 
