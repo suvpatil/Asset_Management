@@ -113,6 +113,8 @@ func (t *AssetManagementChaincode) Invoke(stub shim.ChaincodeStubInterface, func
 func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	//myLogger.Debugf("Query [%s]", function)
 	var jsonAsBytes []byte
+	var buffer bytes.Buffer	
+	
 	if function != "query" {
 		return nil, errors.New("Invalid query function name. Expecting 'query' but found '" + function + "'")
 	}
@@ -140,7 +142,11 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	}
 
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
-	jsonAsBytes, _ = json.Marshal(row)
+	buffer.WriteString(row.Columns[0])
+	buffer.WriteString(row.Columns[1])
+	
+	//row.Columns[0]
+	jsonAsBytes, _ = json.Marshal(buffer.String())
 	return jsonAsBytes, nil
 }
 
