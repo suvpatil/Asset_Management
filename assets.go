@@ -68,7 +68,7 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 	}
 	
 
-	contarctString = args[0]
+	contarctString := args[0]
 	contractSlice = strings.Split(contarctString, ",")
 	for i := range contractSlice{
 		valSplit = strings.Split(contractSlice[i], ":")
@@ -142,7 +142,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	}
 
 	// Who is the owner of the asset?
-	asset := args[0]
+	traderLoginUserName := args[0]
 
 	///myLogger.Debugf("Arg [%s]", string(asset))
 
