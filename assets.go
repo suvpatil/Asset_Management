@@ -282,7 +282,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	}
 	
 	seller_name := row.Columns[0].GetString_()
-	buyer_name := row.Columns[3].GetString_()
+	//buyer_name := row.Columns[3].GetString_()
 	if traderLoginUserName == seller_name {
 		contObj.traderLoginUserName = row.Columns[0].GetString_()
 		contObj.isBuyer = row.Columns[1].GetString_()
