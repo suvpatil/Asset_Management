@@ -285,7 +285,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	contObj.traderLoginUserName = row.Columns[0].GetString_()
 	contObj.isBuyer = row.Columns[1].GetString_()
 	contObj.isSeller = row.Columns[2].GetString_()
-	contObj.selectedBuyerName"] = row.Columns[3].GetString_()
+	contObj.selectedBuyerName = row.Columns[3].GetString_()
 	contObj.purchaseOrder = row.Columns[4].GetString_()
 	contObj.totalPrice = row.Columns[5].GetString_()
 	contObj.currency = row.Columns[6].GetString_()
