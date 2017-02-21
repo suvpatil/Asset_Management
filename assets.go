@@ -262,58 +262,59 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 
 	var err error
 
-	if len(args) != 2 {
+	if len(args) != 1 {
 		//myLogger.Debug("Incorrect number of arguments. Expecting name of an asset to query")
 		return nil, errors.New("Incorrect number of arguments. Expecting name of an asset to query")
 	}
 
 	// Who is the owner of the asset?
-	traderLoginUserName := args[0]
-	selectedBuyerName := args[1]
+	traderLoginUserName := args[0]	
 	///myLogger.Debugf("Arg [%s]", string(asset))
 
 	var columns []shim.Column
 	col1 := shim.Column{Value: &shim.Column_String_{String_: traderLoginUserName}}
 	columns = append(columns, col1)
-	col2 := shim.Column{Value: &shim.Column_String_{String_: selectedBuyerName}}
-	if col2 == nil {
-		columns = append(columns, col2)
-	}else {
-		return nil, fmt.Errorf("you do not have any contracts")
-	}
-	
+		
 	row, err := stub.GetRow("AssetsOwnership", columns)
 	if err != nil {
 		//myLogger.Debugf("Failed retriving asset [%s]: [%s]", string(asset), err)
 		return nil, fmt.Errorf("Failed retriving asset [%s]: [%s]", string(traderLoginUserName), err)
 	}
 	
-	contObj.traderLoginUserName = row.Columns[0].GetString_()
-	contObj.isBuyer = row.Columns[1].GetString_()
-	contObj.isSeller = row.Columns[2].GetString_()
-	contObj.selectedBuyerName = row.Columns[3].GetString_()
-	contObj.purchaseOrder = row.Columns[4].GetString_()
-	contObj.totalPrice = row.Columns[5].GetString_()
-	contObj.currency = row.Columns[6].GetString_()
-	contObj.deliveryDate = row.Columns[7].GetString_()
-	contObj.incoterm = row.Columns[8].GetString_()
-	contObj.paymentConditions = row.Columns[9].GetString_()
-	contObj.articleId1 = row.Columns[10].GetString_()
-	contObj.articleDesc1 = row.Columns[11].GetString_()
-	contObj.articleQuantity1 = row.Columns[12].GetString_()
-	contObj.articleId2 = row.Columns[13].GetString_()
-	contObj.articleDesc2 = row.Columns[14].GetString_()
-	contObj.articleQuantity2 = row.Columns[15].GetString_()
-	contObj.buyerPaymentConfrimation = row.Columns[16].GetString_()
-	contObj.sellerInfoCounterParty = row.Columns[17].GetString_()
-	contObj.buyerBankCommitment = row.Columns[18].GetString_()
-	contObj.sellerForfaitInvoice = row.Columns[19].GetString_()
-	contObj.invoiceStatus = row.Columns[20].GetString_()
-	contObj.paymentStatus = row.Columns[21].GetString_()
-	contObj.contractStatus = row.Columns[22].GetString_()
-	contObj.deliveryStatus = row.Columns[23].GetString_()
-	contObj.isOrderConfirmed = row.Columns[24].GetString_()
-	contObj.deliveryTrackingId = row.Columns[25].GetString_()
+	seller_name := row.Columns[0].GetString_()
+	buyer_name := row.Columns[3].GetString_()
+	if traderLoginUserName == seller_name || traderLoginUserName == buyer_name {
+		contObj.traderLoginUserName = row.Columns[0].GetString_()
+		contObj.isBuyer = row.Columns[1].GetString_()
+		contObj.isSeller = row.Columns[2].GetString_()
+		contObj.selectedBuyerName = row.Columns[3].GetString_()
+		contObj.purchaseOrder = row.Columns[4].GetString_()
+		contObj.totalPrice = row.Columns[5].GetString_()
+		contObj.currency = row.Columns[6].GetString_()
+		contObj.deliveryDate = row.Columns[7].GetString_()
+		contObj.incoterm = row.Columns[8].GetString_()
+		contObj.paymentConditions = row.Columns[9].GetString_()
+		contObj.articleId1 = row.Columns[10].GetString_()
+		contObj.articleDesc1 = row.Columns[11].GetString_()
+		contObj.articleQuantity1 = row.Columns[12].GetString_()
+		contObj.articleId2 = row.Columns[13].GetString_()
+		contObj.articleDesc2 = row.Columns[14].GetString_()
+		contObj.articleQuantity2 = row.Columns[15].GetString_()
+		contObj.buyerPaymentConfrimation = row.Columns[16].GetString_()
+		contObj.sellerInfoCounterParty = row.Columns[17].GetString_()
+		contObj.buyerBankCommitment = row.Columns[18].GetString_()
+		contObj.sellerForfaitInvoice = row.Columns[19].GetString_()
+		contObj.invoiceStatus = row.Columns[20].GetString_()
+		contObj.paymentStatus = row.Columns[21].GetString_()
+		contObj.contractStatus = row.Columns[22].GetString_()
+		contObj.deliveryStatus = row.Columns[23].GetString_()
+		contObj.isOrderConfirmed = row.Columns[24].GetString_()
+		contObj.deliveryTrackingId = row.Columns[25].GetString_()
+		jsonAsBytes, _ = json.Marshal(contObj)
+		return jsonAsBytes, nil
+	}else {
+		return nil
+	}
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
 	//buffer.WriteString(row.Columns[0].GetString_())
 	//buffer.WriteString(row.Columns[1].GetString_())
@@ -322,8 +323,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	//row.Columns[0]
 	//jsonAsBytes, _ = json.Marshal(buffer.String())
 	//jsonAsBytes, _ = json.Marshal(row)
-	jsonAsBytes, _ = json.Marshal(contObj)
-	return jsonAsBytes, nil
+	
 }
 
 func main() {
