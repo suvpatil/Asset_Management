@@ -197,6 +197,7 @@ func (t *AssetManagementChaincode) Invoke(stub shim.ChaincodeStubInterface, func
 func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	//myLogger.Debugf("Query [%s]", function)
 	var jsonAsBytes []byte
+	resultArray := make(map[string]string)
 	//var buffer bytes.Buffer	
 	
 	if function != "query" {
@@ -224,7 +225,33 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 		//myLogger.Debugf("Failed retriving asset [%s]: [%s]", string(asset), err)
 		return nil, fmt.Errorf("Failed retriving asset [%s]: [%s]", string(traderLoginUserName), err)
 	}
-
+	
+	resultArray["traderLoginUserName"] = row.Columns[0].GetString_()
+	resultArray["isBuyer"] = row.Columns[1].GetString_()
+	resultArray["isSeller"] = row.Columns[2].GetString_()
+	resultArray["selectedBuyerName"] = row.Columns[3].GetString_()
+	resultArray["purchaseOrder"] = row.Columns[4].GetString_()
+	resultArray["totalPrice"] = row.Columns[5].GetString_()
+	resultArray["currency"] = row.Columns[6].GetString_()
+	resultArray["deliveryDate"] = row.Columns[7].GetString_()
+	resultArray["incoterm"] = row.Columns[8].GetString_()
+	resultArray["paymentConditions"] = row.Columns[9].GetString_()
+	resultArray["articleId1"] = row.Columns[10].GetString_()
+	resultArray["articleDesc1"] = row.Columns[11].GetString_()
+	resultArray["articleQuantity1"] = row.Columns[12].GetString_()
+	resultArray["articleId2"] = row.Columns[13].GetString_()
+	resultArray["articleDesc2"] = row.Columns[14].GetString_()
+	resultArray["articleQuantity2"] = row.Columns[15].GetString_()
+	resultArray["buyerPaymentConfrimation"] = row.Columns[16].GetString_()
+	resultArray["sellerInfoCounterParty"] = row.Columns[17].GetString_()
+	resultArray["buyerBankCommitment"] = row.Columns[18].GetString_()
+	resultArray["sellerForfaitInvoice"] = row.Columns[19].GetString_()
+	resultArray["invoiceStatus"] = row.Columns[20].GetString_()
+	resultArray["paymentStatus"] = row.Columns[21].GetString_()
+	resultArray["contractStatus"] = row.Columns[22].GetString_()
+	resultArray["deliveryStatus"] = row.Columns[23].GetString_()
+	resultArray["isOrderConfirmed"] = row.Columns[24].GetString_()
+	resultArray["deliveryTrackingId"] = row.Columns[25].GetString_()
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
 	//buffer.WriteString(row.Columns[0].GetString_())
 	//buffer.WriteString(row.Columns[1].GetString_())
@@ -232,7 +259,8 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	
 	//row.Columns[0]
 	//jsonAsBytes, _ = json.Marshal(buffer.String())
-	jsonAsBytes, _ = json.Marshal(row)
+	//jsonAsBytes, _ = json.Marshal(row)
+	jsonAsBytes, _ = json.Marshal(resultArray)
 	return jsonAsBytes, nil
 }
 
