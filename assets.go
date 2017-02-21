@@ -280,10 +280,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 		//myLogger.Debugf("Failed retriving asset [%s]: [%s]", string(asset), err)
 		return nil, fmt.Errorf("Failed retriving asset [%s]: [%s]", string(traderLoginUserName), err)
 	}
-	
-	//seller_name := row.Columns[0].GetString_()
-	//buyer_name := row.Columns[3].GetString_()
-	
+		
 	contObj.traderLoginUserName = row.Columns[0].GetString_()
 	contObj.isBuyer = row.Columns[1].GetString_()
 	contObj.isSeller = row.Columns[2].GetString_()
@@ -310,6 +307,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	contObj.deliveryStatus = row.Columns[23].GetString_()
 	contObj.isOrderConfirmed = row.Columns[24].GetString_()
 	contObj.deliveryTrackingId = row.Columns[25].GetString_()
+	
 	jsonAsBytes, _ = json.Marshal(contObj)
 	return jsonAsBytes, nil
 	
