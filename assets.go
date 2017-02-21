@@ -268,11 +268,11 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	}
 
 	// Who is the owner of the asset?
-	traderLoginUserName := args[0]	
+	purchaseOrder := args[0]	
 	///myLogger.Debugf("Arg [%s]", string(asset))
 
 	var columns []shim.Column
-	col1 := shim.Column{Value: &shim.Column_String_{String_: traderLoginUserName}}
+	col1 := shim.Column{Value: &shim.Column_String_{String_: purchaseOrder}}
 	columns = append(columns, col1)
 		
 	row, err := stub.GetRow("AssetsOwnership", columns)
@@ -308,7 +308,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	contObj.isOrderConfirmed = row.Columns[24].GetString_()
 	contObj.deliveryTrackingId = row.Columns[25].GetString_()
 	
-	jsonAsBytes, _ = json.Marshal(contObj)
+	jsonAsBytes, _ = json.Marshal(row)
 	return jsonAsBytes, nil
 	
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
