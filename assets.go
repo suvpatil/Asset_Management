@@ -278,7 +278,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	row, err := stub.GetRow("AssetsOwnership", columns)
 	if err != nil {
 		//myLogger.Debugf("Failed retriving asset [%s]: [%s]", string(asset), err)
-		return nil, fmt.Errorf("Failed retriving asset [%s]: [%s]", string(traderLoginUserName), err)
+		return nil, fmt.Errorf("Failed retriving")
 	}
 		
 	contObj.traderLoginUserName = row.Columns[0].GetString_()
