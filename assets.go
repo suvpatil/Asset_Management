@@ -276,7 +276,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	col1 := shim.Column{Value: &shim.Column_String_{String_: traderLoginUserName}}
 	columns = append(columns, col1)
 	col2 := shim.Column{Value: &shim.Column_String_{String_: selectedBuyerName}}
-	if len(col2) > 0 {
+	if col2 = "" {
 		columns = append(columns, col2)
 	}else {
 		return nil, fmt.Errorf("you do not have any contracts")
