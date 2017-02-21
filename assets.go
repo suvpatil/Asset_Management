@@ -170,7 +170,7 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 	return nil, err
 }
 
-func (t *KycChaincode) UpdateDetails(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *AssetManagementChaincode) UpdateDetails(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 
 	if len(args) != 6 {
