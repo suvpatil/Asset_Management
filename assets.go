@@ -269,13 +269,19 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 
 	// Who is the owner of the asset?
 	traderLoginUserName := args[0]
-
+	selectedBuyerName := args[1]
 	///myLogger.Debugf("Arg [%s]", string(asset))
 
 	var columns []shim.Column
 	col1 := shim.Column{Value: &shim.Column_String_{String_: traderLoginUserName}}
 	columns = append(columns, col1)
-
+	col2 := shim.Column{Value: &shim.Column_String_{String_: selectedBuyerName}}
+	if len(col2) > 0 {
+		columns = append(columns, col2)
+	}else {
+		return nil, fmt.Errorf("you do not have any contracts")
+	}
+	
 	row, err := stub.GetRow("AssetsOwnership", columns)
 	if err != nil {
 		//myLogger.Debugf("Failed retriving asset [%s]: [%s]", string(asset), err)
