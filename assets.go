@@ -32,6 +32,35 @@ import (
 type AssetManagementChaincode struct {
 }
 
+type contract struct {	
+	traderLoginUserName            string `json:"traderLoginUserName"`
+	isBuyer                        string `json:"isBuyer"`     
+	isSeller                       string `json:"isSeller"`
+	selectedBuyerName              string `json:"selectedBuyerName"`
+	purchaseOrder                  string `json:"purchaseOrder"`
+	totalPrice                     string `json:"totalPrice"`
+	currency                       string `json:"currency"`
+	deliveryDate                   string `json:"deliveryDate"`
+	incoterm                       string `json:"incoterm"`
+	paymentConditions              string `json:"paymentConditions"`
+	articleId1                     string `json:"articleId1"`
+	articleDesc1                   string `json:"articleDesc1"`
+	articleQuantity1               string `json:"articleQuantity1"`
+	articleId2                     string `json:"articleId2"`
+	articleDesc2                   string `json:"articleDesc2"`
+	articleQuantity2               string `json:"articleQuantity2"`
+	buyerPaymentConfrimation       string `json:"buyerPaymentConfrimation"`
+	sellerInfoCounterParty         string `json:"sellerInfoCounterParty"`
+	buyerBankCommitment            string `json:"buyerBankCommitment"`
+	sellerForfaitInvoice           string `json:"sellerForfaitInvoice"`
+	invoiceStatus                  string `json:"invoiceStatus"`
+	paymentStatus                  string `json:"paymentStatus"`
+	contractStatus                 string `json:"contractStatus"`
+	deliveryStatus                 string `json:"deliveryStatus"`
+	isOrderConfirmed               string `json:"isOrderConfirmed"`
+	deliveryTrackingId             string `json:"deliveryTrackingId"`
+
+}
 // Init method will be called during deployment.
 // The deploy transaction metadata is supposed to contain the administrator cert
 func (t *AssetManagementChaincode) Init(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
@@ -223,7 +252,8 @@ func (t *AssetManagementChaincode) Invoke(stub shim.ChaincodeStubInterface, func
 func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	//myLogger.Debugf("Query [%s]", function)
 	var jsonAsBytes []byte
-	resultArray := make(map[string]string)
+	//resultArray := make(map[string]string)
+	var contObj contract
 	//var buffer bytes.Buffer	
 	
 	if function != "query" {
@@ -252,32 +282,32 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 		return nil, fmt.Errorf("Failed retriving asset [%s]: [%s]", string(traderLoginUserName), err)
 	}
 	
-	resultArray["traderLoginUserName"] = row.Columns[0].GetString_()
-	resultArray["isBuyer"] = row.Columns[1].GetString_()
-	resultArray["isSeller"] = row.Columns[2].GetString_()
-	resultArray["selectedBuyerName"] = row.Columns[3].GetString_()
-	resultArray["purchaseOrder"] = row.Columns[4].GetString_()
-	resultArray["totalPrice"] = row.Columns[5].GetString_()
-	resultArray["currency"] = row.Columns[6].GetString_()
-	resultArray["deliveryDate"] = row.Columns[7].GetString_()
-	resultArray["incoterm"] = row.Columns[8].GetString_()
-	resultArray["paymentConditions"] = row.Columns[9].GetString_()
-	resultArray["articleId1"] = row.Columns[10].GetString_()
-	resultArray["articleDesc1"] = row.Columns[11].GetString_()
-	resultArray["articleQuantity1"] = row.Columns[12].GetString_()
-	resultArray["articleId2"] = row.Columns[13].GetString_()
-	resultArray["articleDesc2"] = row.Columns[14].GetString_()
-	resultArray["articleQuantity2"] = row.Columns[15].GetString_()
-	resultArray["buyerPaymentConfrimation"] = row.Columns[16].GetString_()
-	resultArray["sellerInfoCounterParty"] = row.Columns[17].GetString_()
-	resultArray["buyerBankCommitment"] = row.Columns[18].GetString_()
-	resultArray["sellerForfaitInvoice"] = row.Columns[19].GetString_()
-	resultArray["invoiceStatus"] = row.Columns[20].GetString_()
-	resultArray["paymentStatus"] = row.Columns[21].GetString_()
-	resultArray["contractStatus"] = row.Columns[22].GetString_()
-	resultArray["deliveryStatus"] = row.Columns[23].GetString_()
-	resultArray["isOrderConfirmed"] = row.Columns[24].GetString_()
-	resultArray["deliveryTrackingId"] = row.Columns[25].GetString_()
+	contObj.traderLoginUserName = row.Columns[0].GetString_()
+	contObj.isBuyer = row.Columns[1].GetString_()
+	contObj.isSeller = row.Columns[2].GetString_()
+	contObj.selectedBuyerName"] = row.Columns[3].GetString_()
+	contObj.purchaseOrder = row.Columns[4].GetString_()
+	contObj.totalPrice = row.Columns[5].GetString_()
+	contObj.currency = row.Columns[6].GetString_()
+	contObj.deliveryDate = row.Columns[7].GetString_()
+	contObj.incoterm = row.Columns[8].GetString_()
+	contObj.paymentConditions = row.Columns[9].GetString_()
+	contObj.articleId1 = row.Columns[10].GetString_()
+	contObj.articleDesc1 = row.Columns[11].GetString_()
+	contObj.articleQuantity1 = row.Columns[12].GetString_()
+	contObj.articleId2 = row.Columns[13].GetString_()
+	contObj.articleDesc2 = row.Columns[14].GetString_()
+	contObj.articleQuantity2 = row.Columns[15].GetString_()
+	contObj.buyerPaymentConfrimation = row.Columns[16].GetString_()
+	contObj.sellerInfoCounterParty = row.Columns[17].GetString_()
+	contObj.buyerBankCommitment = row.Columns[18].GetString_()
+	contObj.sellerForfaitInvoice = row.Columns[19].GetString_()
+	contObj.invoiceStatus = row.Columns[20].GetString_()
+	contObj.paymentStatus = row.Columns[21].GetString_()
+	contObj.contractStatus = row.Columns[22].GetString_()
+	contObj.deliveryStatus = row.Columns[23].GetString_()
+	contObj.isOrderConfirmed = row.Columns[24].GetString_()
+	contObj.deliveryTrackingId = row.Columns[25].GetString_()
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
 	//buffer.WriteString(row.Columns[0].GetString_())
 	//buffer.WriteString(row.Columns[1].GetString_())
@@ -286,7 +316,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	//row.Columns[0]
 	//jsonAsBytes, _ = json.Marshal(buffer.String())
 	//jsonAsBytes, _ = json.Marshal(row)
-	jsonAsBytes, _ = json.Marshal(resultArray)
+	jsonAsBytes, _ = json.Marshal(contObj)
 	return jsonAsBytes, nil
 }
 
