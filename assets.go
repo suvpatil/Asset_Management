@@ -170,21 +170,47 @@ func (t *AssetManagementChaincode) assign(stub shim.ChaincodeStubInterface, args
 	return nil, err
 }
 
+func (t *KycChaincode) UpdateDetails(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	var err error
 
-// Invoke will be called for every transaction.
-// Supported functions are the following:
-// "assign(asset, owner)": to assign ownership of assets. An asset can be owned by a single entity.
-// Only an administrator can call this function.
-// "transfer(asset, newOwner)": to transfer the ownership of an asset. Only the owner of the specific
-// asset can call this function.
-// An asset is any string to identify it. An owner is representated by one of his ECert/TCert.
+	if len(args) != 6 {
+		return nil, errors.New("Incorrect number of arguments. Need 6 arguments")
+	}
+	
+	traderLoginUserName := args[0]
+	purchaseOrder := args[1],
+	//statusMessageToBeUodated: “paymentStatus”,
+	//newStatusMessage: ””
+	invoiceStatus := args[2],
+	paymentStatus := args[3], -- on “Send Invoice” button click, change it to “Confirmed”
+	contractStatus := args[4],
+	deliveryStatus := args[5]
+
+	ok, err := stub.ReplaceRow("AssetsOwnership", shim.Row{
+		Columns: []*shim.Column{
+			&shim.Column{Value: &shim.Column_String_{String_: traderLoginUserName}},
+			&shim.Column{Value: &shim.Column_String_{String_: purchaseOrder}},
+			&shim.Column{Value: &shim.Column_String_{String_: invoiceStatus}},
+			&shim.Column{Value: &shim.Column_String_{String_: paymentStatus}},
+			&shim.Column{Value: &shim.Column_String_{String_: contractStatus}},
+			&shim.Column{Value: &shim.Column_String_{String_: deliveryStatus}},
+		},
+	})
+
+	if !ok && err == nil {
+		return nil, errors.New("Error in adding record.")
+	}
+	return nil, nil
+}
+
+
 func (t *AssetManagementChaincode) Invoke(stub shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 
 	// Handle different functions
-	if function == "assign" {
-		// Assign ownership
-		return t.assign(stub, args)
-	
+	if function == "assign" {		
+		return t.assign(stub, args)	
+	}else if function == "UpdateDetails" {		
+		return t.UpdateDetails(stub, args)
 	}
 
 	return nil, errors.New("Received unknown function invocation")
