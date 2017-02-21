@@ -313,7 +313,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 		jsonAsBytes, _ = json.Marshal(contObj)
 		return jsonAsBytes, nil
 	}else {
-		return nil
+		return nil, errors.New("No buyer for contract")
 	}
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
 	//buffer.WriteString(row.Columns[0].GetString_())
