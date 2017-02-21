@@ -310,7 +310,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 	contObj.deliveryStatus = row.Columns[23].GetString_()
 	contObj.isOrderConfirmed = row.Columns[24].GetString_()
 	contObj.deliveryTrackingId = row.Columns[25].GetString_()
-	jsonAsBytes, _ = json.Marshal(row)
+	jsonAsBytes, _ = json.Marshal(contObj)
 	return jsonAsBytes, nil
 	
 	//myLogger.Debugf("Query done [% x]", row.Columns[1].GetBytes())
