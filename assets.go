@@ -178,12 +178,12 @@ func (t *KycChaincode) UpdateDetails(stub shim.ChaincodeStubInterface, args []st
 	}
 	
 	traderLoginUserName := args[0]
-	purchaseOrder := args[1],
+	purchaseOrder := args[1]
 	//statusMessageToBeUodated: “paymentStatus”,
 	//newStatusMessage: ””
-	invoiceStatus := args[2],
-	paymentStatus := args[3], -- on “Send Invoice” button click, change it to “Confirmed”
-	contractStatus := args[4],
+	invoiceStatus := args[2]
+	paymentStatus := args[3]
+	contractStatus := args[4]
 	deliveryStatus := args[5]
 
 	ok, err := stub.ReplaceRow("AssetsOwnership", shim.Row{
