@@ -281,7 +281,7 @@ func (t *AssetManagementChaincode) Query(stub shim.ChaincodeStubInterface, funct
 		return nil, fmt.Errorf("Failed retriving asset [%s]: [%s]", string(traderLoginUserName), err)
 	}
 	
-	seller_name := row.Columns[0]
+	seller_name := row.Columns[0].GetString_()
 	buyer_name := row.Columns[3].GetString_()
 	if traderLoginUserName == seller_name {
 		contObj.traderLoginUserName = row.Columns[0].GetString_()
